@@ -12,7 +12,7 @@ if(com.o2GEEK.gQ) {
     }
 
 
-    com.o2GEEK.gQ.loadJA = function () {
+    com.o2GEEK.gQ.loadJS = function () {
 
     }
 }
