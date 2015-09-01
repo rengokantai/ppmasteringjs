@@ -4,7 +4,8 @@
 (function(scope, isForgiving){
     //
     var version = 1;
-
+    var doc = window.document;
+    var q;
     var gQ = function (selector, context) {
 
     }
@@ -23,12 +24,45 @@
                 this.onload();
             }
         }
-        document.getElementsByTagName('head')[0].appendChild(js);
+        doc.getElementsByTagName('head')[0].appendChild(js);
+    }
+
+    gQ.ready = function(fun){
+        var last =window.onload;
+        var isReady = false;
+
+        if(doc.addEventListener){
+            doc.addEventListener('DOMContentLoaded',function(){
+                isReady = true;
+                fun();
+            });
+        }
+
+        window.onload = function(){
+            if(last) last();
+            if(isReady) fun();
+        }
     }
 
     gQ.version = function(){
         return version;
     }
+
+
+    gQ.ready(function(){
+        if(doc.querySelectorAll&& doc.querySelectorAll('body:first-of-type')){
+            q = function(param){
+                return document.querySelectorAll(param);
+            };
+            onReadySelect();
+        }else{
+            loadScript('js/sizzle.min.js',function(){
+                q = Sizzle;
+                onReadySelect();
+            });
+        }
+
+    });
 
     if(!window.gQ){
         window.gQ = gQ;
