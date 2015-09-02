@@ -7,7 +7,7 @@
     var doc = window.document;
     var q;
     var gQ = function (selector, context) {
-
+        return q(selector);
     }
 
     gQ.loadJS = function(path, callback){
@@ -43,6 +43,7 @@
             if(isReady) fun();
         }
     }
+    gQ.start = function(){};
 
     gQ.version = function(){
         return version;
@@ -54,7 +55,7 @@
             q = function(param){
                 return document.querySelectorAll(param);
             };
-            onReadySelect();
+            gQ.start();
         }else{
             loadScript('js/sizzle.min.js',function(){
                 q = Sizzle;
