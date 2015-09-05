@@ -1,4 +1,7 @@
 /**
+ * Created by Hernan Y.Ke on 2015/9/4.
+ */
+/**
  * Created by Hernan Y.Ke on 2015/8/30.
  */
 (function(scope, isForgiving){
@@ -7,7 +10,7 @@
     var doc = window.document;
     var q;
     var gQ = function (selector, context) {
-        return q(selector);
+        return q.query(selector);
     }
 
     gQ.loadJS = function(path, callback){
@@ -53,7 +56,9 @@
     gQ.ready(function(){
         if(doc.querySelectorAll&& doc.querySelectorAll('body:first-of-type')){
             q = function(param){
-                return document.querySelectorAll(param);
+                //return document.querySelectorAll(param);
+
+                q = new NativeQuery();
             };
             gQ.start();
         }else{
@@ -64,6 +69,13 @@
         }
 
     });
+
+
+    NativeQuery = function(){}
+    NativeQuery.prototype.query  = function(selector, context){
+        context = context ||doc;
+        return doc.querySelectorAll(selector);
+    };
 
     if(!window.gQ){
         window.gQ = gQ;
