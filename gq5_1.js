@@ -62,8 +62,9 @@
             };
             gQ.start();
         }else{
-            loadScript('js/sizzle.min.js',function(){
-                q = Sizzle;
+            gQ.loadJS('js/sizzle.min.js',function(){
+                //q = Sizzle;
+                q = new SizzleAdapter(Sizzle);
                 gQ.start();
             });
         }
@@ -75,6 +76,12 @@
     NativeQuery.prototype.query  = function(selector, context){
         context = context ||doc;
         return doc.querySelectorAll(selector);
+    };
+
+    SizzleAdapter = function(lib) {this.lib =lib};
+    SizzleAdapter.prototype.query = function(selector, context){
+        context = context ||doc;
+        return this.lib(selector);
     };
 
     if(!window.gQ){
